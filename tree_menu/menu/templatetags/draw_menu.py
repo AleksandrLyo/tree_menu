@@ -5,16 +5,27 @@ register = template.Library()
 
 @register.inclusion_tag('menu/draw_menu.html', takes_context=True)
 def draw_menu(context, menu):
-    items = Item.objects.filter(menu__slug=menu)
-    items_values = items.values()
-    primary_item = [item for item in items_values.filter(parent=None)]
-    selected_item_id = int(context['request'].GET[menu])
-    selected_item = items.get(id=selected_item_id)
-    selected_item_id_list = get_selected_item_id_list(selected_item, primary_item, selected_item_id)
-    for item in primary_item:
-        if item['id'] in selected_item_id_list:
-            item['child_items'] = get_child_items(items_values, item['id'], selected_item_id_list)
-    result_dict = {'items': primary_item}
+
+    try:
+        items = Item.objects.filter(menu__slug=menu)
+        items_values = items.values()
+        primary_item = [item for item in items_values.filter(parent=None)]
+        selected_item_id = int(context['request'].GET[menu])
+        selected_item = items.get(id=selected_item_id)
+        selected_item_id_list = get_selected_item_id_list(selected_item, primary_item, selected_item_id)
+
+        for item in primary_item:
+            if item['id'] in selected_item_id_list:
+                item['child_items'] = get_child_items(items_values, item['id'], selected_item_id_list)
+        result_dict = {'items': primary_item}
+
+    except:
+        result_dict = {
+            'items': [
+                item for item in Item.objects.filter(menu__slug=menu, parent=None).values()
+                ]
+            }
+
     result_dict['menu'] = menu
     result_dict['other_querystring'] = get_querystring(context, menu)
 
