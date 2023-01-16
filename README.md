@@ -22,4 +22,5 @@ python manage.py runserver
 ```bash
 http://127.0.0.1:8000/admin/menu/menu/add/ - Добавление нового меню
 http://127.0.0.1:8000/admin/menu/item/add/ - Создание пунктов меню
+http://127.0.0.1:8000/menu/ - Просмотр готового меню
 ```
