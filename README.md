@@ -6,7 +6,7 @@ Django приложение реализовывающее древовидно�
 
 ### Запуск:
 ```bash
-git clone git@github.com:AleksandrLyo/tree_menu.git
+git clone https://github.com/AleksandrLyo/tree_menu.git
 cd tree_menu/
 python3 -m venv venv
 source venv/bin/activate
